@@ -89,13 +89,40 @@ public class Calculator {
 
 	public void evaluateExpression(String expression) {
 		ArrayList<Integer> numbersArray = new ArrayList<Integer>();
-		for (int i = 0; i <= expression.length(); i++) {
+		ArrayList<String> operatorArray = new ArrayList<String>();
+		for (int i = 0; i < expression.length(); i++) {
 			 char c = expression.charAt(i);
-			 if (Character.isDigit(c)) {
-				 numbersArray.add(0, (int)c);
-			 } 
+			 if (c >= '0' && c <= '9') {
+				 numbersArray.add(0, Character.getNumericValue(c));
+			 }
+			 if (c == '*' || c == '/' || c == '+' || c == '-') {
+				 operatorArray.add(Character.toString(c));
+			 }
 		}
-		result = 4;
+		
+		//multiplication loop
+		for (int i = 0; i < operatorArray.size(); i++) {
+			if (operatorArray.get(i).equals("*")) {
+				int interimResult = (numbersArray.get(i)) * (numbersArray.get(i+1));
+				numbersArray.remove(i);
+				numbersArray.remove(i);
+				numbersArray.add(interimResult);
+			}
+		}
+		
+		//addition loop
+		for (int i = 0; i < operatorArray.size(); i++) {
+			if (operatorArray.get(i).equals("+")) {
+				int interimResult = (numbersArray.get(i)) + (numbersArray.get(i+1));
+				numbersArray.remove(i);
+				numbersArray.remove(i);
+				numbersArray.add(interimResult);
+			}
+		}
+		
+		
+		
+		result = numbersArray.get(0);
 	}
 
 	public ArrayList<String> getPreviousAttempts() {
@@ -107,3 +134,6 @@ public class Calculator {
 	}
 
 }
+
+
+
