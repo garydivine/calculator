@@ -6,9 +6,10 @@
 </head>
 <body>
 	<h1>Calculator</h1>
+	<h2>Two-Argument Operations:</h2>
 	<form action="/" method="post">
-		Enter Numbers:
-		<input type="number" name="firstNumber" required> <select
+		<input type="number" name="firstNumber" required> 
+		<select
 			name="operator">
 			<option>+</option>
 			<option>-</option>
@@ -17,28 +18,40 @@
 			<option>^</option>
 			<option>√</option>
 			<option>log</option>
-			<option>sin</option>
+		</select> 
+		<input type="number" name="secondNumber" required>
+		<button>Calculate</button>
+	</form>
+	<p>Your result is: {{ regularCalculator.getResult }}</p>
+	<ul>
+		{{#regularCalculator.previousAttempts}}
+		<li>{{ . }}</li>
+		{{/regularCalculator.previousAttempts}}
+	</ul>
+	<h2>One-Argument Operations:</h2>
+	<form action="/" method="post">
+		<select name="trigOperator">
+		<option>sin</option>
 			<option>cos</option>
 			<option>tan</option>
 			<option>sinh</option>
 			<option>cosh</option>
 			<option>tanh</option>
-		</select> <input type="number" name="secondNumber" required>
+		</select>
+		<input type="number" name="trigNumber" required>
 		<button>Calculate</button>
 	</form>
-	<p>Your result is: {{ result }}</p>
+	<p>Your result is: {{ trigCalculator.getResult }}</p>
 	<ul>
-		{{#previousAttempts}}
+		{{#trigCalculator.previousAttempts}}
 		<li>{{ . }}</li>
-		{{/previousAttempts}}
+		{{/trigCalculator.previousAttempts}}
 	</ul>
-	
-	OR
+	<h2>Manual Expression:</h2>
 	<form action="/" method="post">
-		Enter Text:
-		<input type="text" name="expression">
+		<input type="text" name="expression" required>
 		<button>Calculate</button>
 	</form>
-	<p>Your result is: {{ resultOfExpression }}</p>
+	<p>Your result is: {{ manualCalculator.getResult }}</p>
 </body>
 </html>

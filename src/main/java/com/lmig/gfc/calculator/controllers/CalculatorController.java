@@ -9,30 +9,39 @@ import com.lmig.gfc.calculator.models.Calculator;
 @Controller
 public class CalculatorController {
 
-	private Calculator calc;
-	private Calculator calc2;
+	private Calculator regularCalc;
+	private Calculator trigCalc;
+	private Calculator manualCalc;
 
 	public CalculatorController() {
-		calc = new Calculator();
-		calc2 = new Calculator();
+		regularCalc = new Calculator();
+		trigCalc = new Calculator();
+		manualCalc = new Calculator();
 	}
+		
 
 	@RequestMapping("/")
-	public ModelAndView showCalculator(String firstNumber, String secondNumber, String operator, String expression) {
+	public ModelAndView showCalculator(String firstNumber, String secondNumber, String operator, String trigOperator, String trigNumber, String expression) {
 		ModelAndView mv = new ModelAndView();
 		if (firstNumber != null && secondNumber != null) {
-			calc.doMath(firstNumber, secondNumber, operator);
-			calc.addPreviousAttempt(firstNumber, secondNumber, operator);
+			regularCalc.doMath(firstNumber, secondNumber, operator);
+			regularCalc.addPreviousAttempt(firstNumber, secondNumber, operator);
+		}
+		
+		if (trigNumber != null) {
+			trigCalc.doTrigMath(trigOperator, trigNumber);
+			trigCalc.addPreviousAttempt(trigNumber, trigOperator);
 		}
 		
 		if (expression != null) {
-			calc2.evaluateExpression(expression);
+			manualCalc.evaluateExpression(expression);
 		}
 
 		mv.setViewName("calculator");
-		mv.addObject("result", calc.getResult() );
-		mv.addObject("previousAttempts", calc.getPreviousAttempts());
-		mv.addObject("resultOfExpression", calc2.getResult());
+		mv.addObject("regularCalculator", regularCalc);
+		mv.addObject("trigCalculator", trigCalc);
+		mv.addObject("manualCalculator", manualCalc);
 		return mv;
 	}
 }
+
