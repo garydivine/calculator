@@ -10,23 +10,29 @@ import com.lmig.gfc.calculator.models.Calculator;
 public class CalculatorController {
 
 	private Calculator calc;
+	private Calculator calc2;
 
 	public CalculatorController() {
 		calc = new Calculator();
+		calc2 = new Calculator();
 	}
 
 	@RequestMapping("/")
-	public ModelAndView showCalculator(String firstNumber, String secondNumber, String operator) {
+	public ModelAndView showCalculator(String firstNumber, String secondNumber, String operator, String expression) {
 		ModelAndView mv = new ModelAndView();
-		double calcResult = 0;
 		if (firstNumber != null && secondNumber != null) {
-			calcResult = calc.doMath(firstNumber, secondNumber, operator);
-			calc.addPreviousAttempt(firstNumber, secondNumber, operator, calcResult);
-			mv.addObject("previousAttempts", calc.getPreviousAttempts());
+			calc.doMath(firstNumber, secondNumber, operator);
+			calc.addPreviousAttempt(firstNumber, secondNumber, operator);
 		}
 		
+		if (expression != null) {
+			calc2.evaluateExpression(expression);
+		}
+
 		mv.setViewName("calculator");
-		mv.addObject("result", calcResult); // should i hide the ui somehow so i dont have to have this out here??
+		mv.addObject("result", calc.getResult() );
+		mv.addObject("previousAttempts", calc.getPreviousAttempts());
+		mv.addObject("resultOfExpression", calc2.getResult());
 		return mv;
 	}
 }

@@ -7,6 +7,7 @@
 <body>
 	<h1>Calculator</h1>
 	<form action="/" method="post">
+		Enter Numbers:
 		<input type="number" name="firstNumber" required> <select
 			name="operator">
 			<option>+</option>
@@ -14,6 +15,14 @@
 			<option>*</option>
 			<option>/</option>
 			<option>^</option>
+			<option>√</option>
+			<option>log</option>
+			<option>sin</option>
+			<option>cos</option>
+			<option>tan</option>
+			<option>sinh</option>
+			<option>cosh</option>
+			<option>tanh</option>
 		</select> <input type="number" name="secondNumber" required>
 		<button>Calculate</button>
 	</form>
@@ -23,5 +32,13 @@
 		<li>{{ . }}</li>
 		{{/previousAttempts}}
 	</ul>
+	
+	OR
+	<form action="/" method="post">
+		Enter Text:
+		<input type="text" name="expression">
+		<button>Calculate</button>
+	</form>
+	<p>Your result is: {{ resultOfExpression }}</p>
 </body>
 </html>
