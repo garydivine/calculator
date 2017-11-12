@@ -51,28 +51,17 @@ public class Calculator {
 		double reformattedTrigNumber = Double.parseDouble(trigNumber);
 
 		if (trigOperator.equals("sin")) {
-			result = Math.sin(reformattedTrigNumber);
+			result = Math.sin(Math.toRadians(reformattedTrigNumber));
 		}
 
 		if (trigOperator.equals("cos")) {
-			result = Math.cos(reformattedTrigNumber);
+			result = Math.cos(Math.toRadians(reformattedTrigNumber));
 		}
 
 		if (trigOperator.equals("tan")) {
-			result = Math.tan(reformattedTrigNumber);
+			result = Math.tan(Math.toRadians(reformattedTrigNumber));
 		}
 
-		if (trigOperator.equals("sinh")) {
-			result = Math.sinh(reformattedTrigNumber);
-		}
-
-		if (trigOperator.equals("cosh")) {
-			result = Math.cosh(reformattedTrigNumber);
-		}
-
-		if (trigOperator.equals("cosh")) {
-			result = Math.tanh(reformattedTrigNumber);
-		}
 	}
 
 	public void addPreviousAttempt(String firstNumber, String secondNumber, String operator) {
@@ -86,42 +75,69 @@ public class Calculator {
 		String fullStringToBeAdded = trigOperator + " " + trigNumber + " = " + resultString;
 		previousAttempts.add(0, fullStringToBeAdded);
 	}
+	
+	public void addPreviousAttempt(String expression) {
+		String resultString = String.valueOf(result);
+		String fullStringToBeAdded = expression + " = " + resultString;
+		previousAttempts.add(0, fullStringToBeAdded);
+	}
 
 	public void evaluateExpression(String expression) {
 		ArrayList<Integer> numbersArray = new ArrayList<Integer>();
 		ArrayList<String> operatorArray = new ArrayList<String>();
+
+		// pull out all the numbers and operators and add them into arraylists in the
+		// order they are entered
 		for (int i = 0; i < expression.length(); i++) {
-			 char c = expression.charAt(i);
-			 if (c >= '0' && c <= '9') {
-				 numbersArray.add(0, Character.getNumericValue(c));
-			 }
-			 if (c == '*' || c == '/' || c == '+' || c == '-') {
-				 operatorArray.add(Character.toString(c));
-			 }
+			char c = expression.charAt(i);
+			if (c >= '0' && c <= '9') {
+				numbersArray.add(0, Character.getNumericValue(c));
+			}
+			if (c == '*' || c == '/' || c == '+' || c == '-') {
+				operatorArray.add(Character.toString(c));
+			}
 		}
-		
-		//multiplication loop
+
+		// multiplication loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("*")) {
-				int interimResult = (numbersArray.get(i)) * (numbersArray.get(i+1));
+				int interimResult = (numbersArray.get(i)) * (numbersArray.get(i + 1));
 				numbersArray.remove(i);
 				numbersArray.remove(i);
 				numbersArray.add(interimResult);
 			}
 		}
-		
-		//addition loop
+
+		// division loop
+		for (int i = 0; i < operatorArray.size(); i++) {
+			if (operatorArray.get(i).equals("/")) {
+				int interimResult = (numbersArray.get(i)) / (numbersArray.get(i + 1));
+				numbersArray.remove(i);
+				numbersArray.remove(i);
+				numbersArray.add(interimResult);
+			}
+		}
+
+		// addition loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("+")) {
-				int interimResult = (numbersArray.get(i)) + (numbersArray.get(i+1));
+				int interimResult = (numbersArray.get(i)) + (numbersArray.get(i + 1));
 				numbersArray.remove(i);
 				numbersArray.remove(i);
 				numbersArray.add(interimResult);
 			}
 		}
-		
-		
-		
+
+		// subtraction loop
+		for (int i = 0; i < operatorArray.size(); i++) {
+			if (operatorArray.get(i).equals("-")) {
+				int interimResult = (numbersArray.get(i)) - (numbersArray.get(i + 1));
+				numbersArray.remove(i);
+				numbersArray.remove(i);
+				numbersArray.add(interimResult);
+			}
+		}
+
 		result = numbersArray.get(0);
 	}
 
