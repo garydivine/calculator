@@ -85,58 +85,74 @@ public class Calculator {
 	public void evaluateExpression(String expression) {
 		ArrayList<Integer> numbersArray = new ArrayList<Integer>();
 		ArrayList<String> operatorArray = new ArrayList<String>();
+		ArrayList<Integer> numbersArrayForTracking = new ArrayList<Integer>();
+		
 
 		// pull out all the numbers and operators and add them into arraylists in the
 		// order they are entered
 		for (int i = 0; i < expression.length(); i++) {
 			char c = expression.charAt(i);
 			if (c >= '0' && c <= '9') {
-				numbersArray.add(0, Character.getNumericValue(c));
+				numbersArray.add(Character.getNumericValue(c));
+				numbersArrayForTracking.add(Character.getNumericValue(c));
 			}
 			if (c == '*' || c == '/' || c == '+' || c == '-') {
 				operatorArray.add(Character.toString(c));
 			}
 		}
-
+		
 		// multiplication loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("*")) {
 				int interimResult = (numbersArray.get(i)) * (numbersArray.get(i + 1));
-				numbersArray.remove(i);
-				numbersArray.remove(i);
-				numbersArray.add(interimResult);
-			}
+				numbersArrayForTracking.remove(i);
+				numbersArrayForTracking.remove(i);
+				numbersArrayForTracking.add(i, interimResult);
+				}
 		}
-
+		
+		numbersArray = numbersArrayForTracking;
+		operatorArray.removeIf("*"::equals);
+		
 		// division loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("/")) {
 				int interimResult = (numbersArray.get(i)) / (numbersArray.get(i + 1));
-				numbersArray.remove(i);
-				numbersArray.remove(i);
-				numbersArray.add(interimResult);
-			}
+				numbersArrayForTracking.remove(i);
+				numbersArrayForTracking.remove(i);
+				numbersArrayForTracking.add(i, interimResult);
+				}
 		}
+		
+		numbersArray = numbersArrayForTracking;
+		operatorArray.removeIf("*"::equals);
+		
 
 		// addition loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("+")) {
-				int interimResult = (numbersArray.get(i)) + (numbersArray.get(i + 1));
-				numbersArray.remove(i);
-				numbersArray.remove(i);
-				numbersArray.add(interimResult);
-			}
+					int interimResult = (numbersArray.get(i)) + (numbersArray.get(i + 1));
+					numbersArrayForTracking.remove(i);
+					numbersArrayForTracking.remove(i);
+					numbersArrayForTracking.add(i, interimResult);
+				}
 		}
+		
+		numbersArray = numbersArrayForTracking;
+		operatorArray.removeIf("+"::equals);
 
 		// subtraction loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("-")) {
 				int interimResult = (numbersArray.get(i)) - (numbersArray.get(i + 1));
-				numbersArray.remove(i);
-				numbersArray.remove(i);
-				numbersArray.add(interimResult);
-			}
+				numbersArrayForTracking.remove(i);
+				numbersArrayForTracking.remove(i);
+				numbersArrayForTracking.add(i, interimResult);
+				}
 		}
+		
+		numbersArray = numbersArrayForTracking;
+		operatorArray.removeIf("-"::equals);
 
 		result = numbersArray.get(0);
 	}
@@ -150,6 +166,11 @@ public class Calculator {
 	}
 
 }
+
+
+
+
+
 
 
 

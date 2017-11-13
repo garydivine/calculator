@@ -40,7 +40,13 @@
 		<li>{{ . }}</li> {{/trigCalculator.previousAttempts}}
 	</ul>
 	<h2>Free-form Operations:</h2>
-	<p>Note: this field only supports single digit number and doesn't support parentheses</p>
+	<p>Known issues with the free-form functionality:</p>
+	<ul>
+		<li>The calculation only supports single digit numbers.</li>
+		<li>The calculation doesn't support parentheses.</li>
+		<li>The order of operations is not exact. Multiplication always comes before Division and Addition always comes before Subtraction in the code.</li>
+		<li>The calculation doesn't work when doing the same operation multiple times (i.e. 4+4+4+4).</li>
+	</ul>
 	<form action="/" method="post">
 		<input type="text" name="expression" required>
 		<button>Calculate</button>
@@ -50,5 +56,6 @@
 		{{#manualCalculator.previousAttempts}}
 		<li>{{ . }}</li> {{/manualCalculator.previousAttempts}}
 	</ul>
+	<br>
 </body>
 </html>
