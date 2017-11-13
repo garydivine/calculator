@@ -127,7 +127,7 @@ public class Calculator {
 		numbersArray = numbersArrayForTracking;
 		operatorArray.removeIf("*"::equals);
 		
-
+		
 		// addition loop
 		for (int i = 0; i < operatorArray.size(); i++) {
 			if (operatorArray.get(i).equals("+")) {
